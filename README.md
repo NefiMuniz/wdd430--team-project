@@ -1,6 +1,7 @@
 # wdd430--team-project
 WDD 430 Term 4 Team Project
 <!-- Team06 Members -->
+Eric Ian Martinez Cazenave
 Estefania Sagrario Ortiz Ramirez
 Jhonatan Rios Vargas
 Marcus Sylvan Palmer
