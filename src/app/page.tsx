@@ -10,11 +10,38 @@ export default function HomePage() {
       {/* Hero Section */}
       <div className="mb-8 w-full max-w-4xl">
         <Image
-          src="/hero.jpg"
+          src="/artisans.webp"
           alt="Handmade Crafts Hero"
-          width={500}
-          height={300}
-          className="w-full h-auto rounded shadow-md"
+          width={200}
+          height={100}
+          className="w-auto h-auto rounded shadow-md"
+        />
+      </div>
+      <div className="mb-8 w-full max-w-4xl">
+        <Image
+          src="/artisans2.webp"
+          alt="Handmade Crafts Hero"
+          width={200}
+          height={100}
+          className="w-auto h-auto rounded shadow-md"
+        />
+      </div>
+      <div className="mb-8 w-full max-w-4xl">
+        <Image
+          src="/artisan3.webp"
+          alt="Handmade Crafts Hero"
+          width={200}
+          height={100}
+          className="w-auto h-auto rounded shadow-md"
+        />
+      </div>
+      <div className="mb-8 w-full max-w-4xl">
+        <Image
+          src="/artisan4.webp"
+          alt="Handmade Crafts Hero"
+          width={200}
+          height={100}
+          className="w-auto h-auto rounded shadow-md"
         />
       </div>
 
