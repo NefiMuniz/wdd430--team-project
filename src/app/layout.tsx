@@ -10,7 +10,7 @@ export const metadata = {
 function TopNav() {
   return (
     <nav className="p-4 shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
+      <div className="max-w-7xl mx-auto flex justify-center items-center flex-wrap md:justify-between">
         <Link href="/" className="text-xl font-bold text-blue-700">
           Handcrafted Haven
         </Link>
@@ -22,6 +22,7 @@ function TopNav() {
           <Link href="/login" className="hover:text-blue-600">Login</Link>
         </div>
       </div>
+      
     </nav>
   );
 }
