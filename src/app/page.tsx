@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { poppins } from "./ui/fonts";
+import { merriweather } from "./ui/fonts";
 
 export default function HomePage() {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen px-4 py-8 text-center">
       {/* Title */}
-      <h1 className="text-4xl md:text-6xl font-bold mb-8">Handcrafted Haven</h1>
+      <h1 className={`${poppins.className} text-4xl md:text-6xl font-bold mb-8`}>Handcrafted Haven</h1>
 
       {/* Hero Section */}
       <div className="mb-8 w-full max-w-4xl">
@@ -46,7 +48,7 @@ export default function HomePage() {
       </div>
 
       {/* Call to Action */}
-      <p className="text-lg md:text-xl mb-4">
+      <p className={`${merriweather.className}text-lg md:text-xl mb-4`}>
         Discover unique handcrafted items or share your own creations with the world.
       </p>
       <div className="flex flex-col md:flex-row gap-4 mb-8">
