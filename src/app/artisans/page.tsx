@@ -1,4 +1,4 @@
-import ArtisanCard from "./ArtisanCard";
+import ArtisanCard from "../ui/ArtisanCard";
 
 const artisans = [
   {
