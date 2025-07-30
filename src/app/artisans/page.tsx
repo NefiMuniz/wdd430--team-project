@@ -1,6 +1,6 @@
 import ArtisanCard from "./ArtisanCard";
 
-const artisans: Artisan[] = [
+const artisans = [
   {
     name: "María López",
     bio: "Ceramic artist from Oaxaca, blending tradition with modern design.",
