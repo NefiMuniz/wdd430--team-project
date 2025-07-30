@@ -1,5 +1,4 @@
 import ArtisanCard from "./ArtisanCard";
-import { Artisan } from '../../lib/definitions';
 
 const artisans = [
   {

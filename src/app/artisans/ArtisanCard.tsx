@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import { Artisan } from '@/lib/definitions';
+
 
 export default function ArtisanCard({ name, bio, imageUrl }: Artisan) {
     return (
