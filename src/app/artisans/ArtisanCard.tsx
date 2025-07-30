@@ -1,11 +1,6 @@
-// components/ArtisanCard.tsx
 import Image from 'next/image';
+import { Artisan } from '@/lib/definitions';
 
-export type Artisan = {
-    name: string;
-    bio: string;
-    imageUrl: string;
-};
 
 export default function ArtisanCard({ name, bio, imageUrl }: Artisan) {
     return (
