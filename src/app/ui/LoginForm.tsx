@@ -6,8 +6,21 @@ export default function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        const res = await fetch('/api/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({email, password}),
+        });
+
+        if (res.ok) {
+            window.location.href = '/dashboard';
+        } else {
+            const error = await res.json();
+            alert(`Error: ${error.message}`);
+        }
         console.log({ email, password });
     };
 
