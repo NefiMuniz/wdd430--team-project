@@ -18,7 +18,6 @@ export default function ArtisansPage() {
     <div className="px-4 py-8">
       <h1 className="text-center text-2xl sm:text-3xl font-bold mb-8">Artisans Directory</h1>
 
-    
       <div className="flex flex-col space-y-8 md:grid md:grid-cols-2 md:gap-8 md:space-y-0">
         {artisans.map((artisan, index) => (
           <ArtisanCard
