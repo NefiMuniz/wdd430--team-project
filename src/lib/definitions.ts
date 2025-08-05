@@ -11,4 +11,5 @@ export type Product = {
     price: number;
     artisan_id: number;
     category_id: number;
+    created_by: number;
 };

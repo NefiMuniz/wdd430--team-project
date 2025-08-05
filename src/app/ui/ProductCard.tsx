@@ -11,14 +11,14 @@ export default function ProductCard({
     category_id,
 }: Product) {
     return (
-        <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+        <div className="w-full max-w-md mx-auto bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
             <Image
-                src={'/images/default-avatar.png'}
+                src={'/images/default-product.png'}
                 alt={name ? `${name}` : 'unknown product'}
-                width={128}
-                height={128}
+                width={256}
+                height={256}
                 sizes="(max-width: 768px) 100vw, 128px"
-                className="rounded-full object-cover mb-4"
+                className="rounded-md object-cover mb-4 bg-gray-100"
                 priority
             />
             <h2 className="text-gray-600 text-xl font-semibold mb-2">{name}</h2>

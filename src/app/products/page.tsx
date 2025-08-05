@@ -1,42 +1,9 @@
 import ProductCard from "../ui/ProductCard";
+import { getAllProducts } from "../api/products/route";
 //import { neon } from '@neondatabase/serverless';
 
-const products = [
-  {
-    id: 1,
-    name: "product",
-    description: "product description",
-    price: 2200,
-    artisan_id: 1,
-    category_id: 1,
-  },
-  {
-    id: 2,
-    name: "product",
-    description: "product description",
-    price: 2400,
-    artisan_id: 1,
-    category_id: 1,
-  },
-  {
-    id: 3,
-    name: "product",
-    description: "product description",
-    price: 2400,
-    artisan_id: 1,
-    category_id: 1,
-  },
-  {
-    id: 4,
-    name: "product",
-    description: "product description",
-    price: 2400,
-    artisan_id: 1,
-    category_id: 1,
-  },
-];
-
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const products = await getAllProducts();
   return (
     <div className="px-4 py-8">
       <h1 className="text-center text-2xl sm:text-3xl font-bold mb-8">Product Listings</h1>
@@ -51,6 +18,7 @@ export default function ProductsPage() {
             price={product.price}
             artisan_id={product.artisan_id}
             category_id={product.category_id}
+            created_by={product.created_by}
           />
         ))}
       </div>
