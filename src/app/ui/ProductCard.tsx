@@ -8,6 +8,7 @@ export default function ProductCard({
     price,
     artisan_id,
     category_id,
+    created_by
 }: Product) {
     return (
         <div className="w-full max-w-md mx-auto bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
