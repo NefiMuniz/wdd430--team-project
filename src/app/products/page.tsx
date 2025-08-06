@@ -1,5 +1,5 @@
 import ProductCard from "../ui/ProductCard";
-import { getAllProducts } from "../api/products/route";
+import { getAllProducts } from "@/lib/data";
 //import { neon } from '@neondatabase/serverless';
 
 export default async function ProductsPage() {
