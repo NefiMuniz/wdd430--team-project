@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { Product } from '@/lib/definitions';
-import { formatCurrency } from '@/lib/utils';
 
 export default function ProductCard({
     id,
@@ -22,7 +21,7 @@ export default function ProductCard({
                 priority
             />
             <h2 className="text-gray-600 text-xl font-semibold mb-2">{name}</h2>
-            <p className="text-gray-600">{formatCurrency(price)}</p>
+            <p className="text-gray-600">{`$${price}`}</p>
             <p className="text-gray-600">{description}</p>
         </div>
     );
