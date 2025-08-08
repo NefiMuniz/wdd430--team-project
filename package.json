@@ -11,12 +11,15 @@
   "dependencies": {
     "@neondatabase/serverless": "^1.0.1",
     "bcryptjs": "^3.0.2",
+    "clsx": "^2.1.1",
     "dotenv": "^17.2.0",
     "jsonwebtoken": "^9.0.2",
     "next": "15.4.1",
+    "next-auth": "^4.24.11",
     "postgres": "^3.4.7",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "zod": "^4.0.15"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
