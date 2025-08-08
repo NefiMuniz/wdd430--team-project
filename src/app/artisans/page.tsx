@@ -1,27 +1,17 @@
 import ArtisanCard from "../ui/ArtisanCard";
+import { getAllArtisans } from "@/lib/data";
 
-const artisans = [
-  {
-    name: "María López",
-    bio: "Ceramic artist from Oaxaca, blending tradition with modern design.",
-    imageUrl: "/images/maria.jpg",
-  },
-  {
-    name: "José Martínez",
-    bio: "Textile weaver using backstrap looms and natural dyes.",
-    imageUrl: "/images/jose.jpg",
-  },
-];
-
-export default function ArtisansPage() {
+export default async function ArtisansPage() {
+  const artisans = await getAllArtisans();
   return (
     <div className="px-4 py-8">
       <h1 className="text-center text-2xl sm:text-3xl font-bold mb-8">Artisans Directory</h1>
 
-      <div className="flex flex-col space-y-8 md:grid md:grid-cols-2 md:gap-8 md:space-y-0">
+      <div className="flex flex-col space-y-8 md:grid md:grid-cols-3 md:gap-8 md:space-y-0">
         {artisans.map((artisan, index) => (
           <ArtisanCard
             key={index}
+            id={artisan.id}
             name={artisan.name}
             bio={artisan.bio}
             imageUrl={artisan.imageUrl}
