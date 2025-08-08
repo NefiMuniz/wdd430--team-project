@@ -3,6 +3,20 @@ import { Artisan, Product } from './definitions';
 
 const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
 
+export async function getAllUsers() {
+    try {
+        console.log('Fetching user data...');
+        const users = await sql<{ id: number; username: string; email: string; role: string }[]>`
+      SELECT id, username, email, role FROM users ORDER BY id;
+    `;
+        return users;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch user data.');
+    }
+}
+
+
 export async function getAllArtisans() {
     try {
         console.log('Fetching artisan data...');
