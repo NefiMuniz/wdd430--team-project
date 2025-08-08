@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken';
 import { redirect } from "next/navigation";
-import LogoutButton from "./LogoutButton";
 
 type JwtPayload = {
     role: 'customer' | 'admin' | 'artisan';
@@ -51,8 +50,6 @@ export default async function DashboardPage() {
                     <p>Informações e opções para clientes.</p>
                 </div>
             )}
-
-            <LogoutButton />
         </main>
     );
 }
