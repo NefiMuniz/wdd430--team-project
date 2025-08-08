@@ -1,6 +1,6 @@
 import "./globals.css";
 import { ReactNode } from "react";
-import TopNav from "./topNav";
+import TopNav from "./ui/topNav";
 
 export const metadata = {
   title: "Handcrafted Haven",

@@ -1,4 +1,5 @@
 export type Artisan = {
+    id: number;
     name: string;
     bio: string;
     imageUrl: string;
