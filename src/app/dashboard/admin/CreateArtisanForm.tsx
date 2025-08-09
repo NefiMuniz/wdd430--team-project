@@ -20,7 +20,7 @@ export default function CreateArtisanForm() {
         });
 
         if (res.ok) {
-            setMessage('Artesão criado com sucesso!');
+            setMessage('Artisan added successfully');
             setUsername('');
             setEmail('');
             setPassword('');
@@ -28,13 +28,13 @@ export default function CreateArtisanForm() {
             setBio('');
         } else {
             const data = await res.json();
-            setMessage(`Erro: ${data.message || 'Desconhecido'}`);
+            setMessage(`Erro: ${data.message || 'Unknown'}`);
         }
     }
 
     return (
         <form onSubmit={handleSubmit} className="max-w-md mx-auto p-6 bg-white rounded shadow space-y-4">
-            <h2 className="text-xl font-bold">Criar Novo Artesão</h2>
+            <h2 className="text-xl font-bold">Add New Artisan</h2>
 
             <input
                 type="text"
@@ -65,7 +65,7 @@ export default function CreateArtisanForm() {
 
             <input
                 type="text"
-                placeholder="Nome completo"
+                placeholder="Complete Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
@@ -80,7 +80,7 @@ export default function CreateArtisanForm() {
             />
 
             <button type="submit" className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
-                Criar Artesão
+                Add Artisan
             </button>
 
             {message && <p className="mt-2">{message}</p>}
