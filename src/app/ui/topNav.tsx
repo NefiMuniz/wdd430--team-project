@@ -1,10 +1,27 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const res = await fetch('/api/auth/session');
+        const data = await res.json();
+        setLoggedIn(data.loggedIn);
+      } catch {
+        setLoggedIn(false);
+      }
+    };
+
+    checkSession();
+  }, []);
 
   function toggleMenu() {
     setMenuOpen(!menuOpen);
@@ -13,6 +30,12 @@ export default function TopNav() {
   function closeMenu() {
     setMenuOpen(false);
   }
+
+  const handleLogout = async () => {
+    await fetch('/api/logout', { method: 'POST' });
+    setLoggedIn(false);
+    router.push('/login');
+  };
 
   return (
     <nav className="p-4 shadow-md sticky top-0 z-50 bg-black">
@@ -35,9 +58,16 @@ export default function TopNav() {
           <Link href="/manager" className="hover:text-gray-300 text-white">
             Manager
           </Link>
-          <Link href="/login" className="hover:text-gray-300 text-white">
-            Login
-          </Link>
+
+          {loggedIn ? (
+            <button onClick={handleLogout} className="text-white hover:text-red-400">
+              Logout
+            </button>
+          ) : (
+            <Link href="/login" className="hover:text-gray-300 text-white">
+              Login
+            </Link>
+          )}
         </div>
 
         {/* Botão burger Mobile */}
@@ -48,19 +78,16 @@ export default function TopNav() {
           aria-expanded={menuOpen}
         >
           <span
-            className={`block w-6 h-0.5 bg-white transition-transform duration-300 ${
-              menuOpen ? "rotate-45 translate-y-1.5" : ""
-            }`}
+            className={`block w-6 h-0.5 bg-white transition-transform duration-300 ${menuOpen ? "rotate-45 translate-y-1.5" : ""
+              }`}
           />
           <span
-            className={`block w-6 h-0.5 bg-white transition-opacity duration-300 ${
-              menuOpen ? "opacity-0" : "opacity-100"
-            }`}
+            className={`block w-6 h-0.5 bg-white transition-opacity duration-300 ${menuOpen ? "opacity-0" : "opacity-100"
+              }`}
           />
           <span
-            className={`block w-6 h-0.5 bg-white transition-transform duration-300 ${
-              menuOpen ? "-rotate-45 -translate-y-1.5" : ""
-            }`}
+            className={`block w-6 h-0.5 bg-white transition-transform duration-300 ${menuOpen ? "-rotate-45 -translate-y-1.5" : ""
+              }`}
           />
         </button>
       </div>
@@ -80,9 +107,16 @@ export default function TopNav() {
           <Link href="/manager" onClick={closeMenu} className="hover:text-gray-300 text-white">
             Manager
           </Link>
-          <Link href="/login" onClick={closeMenu} className="hover:text-gray-300 text-white">
-            Login
-          </Link>
+
+          {loggedIn ? (
+            <button onClick={() => { handleLogout(); closeMenu(); }} className="text-white text-left hover:text-red-400">
+              Logout
+            </button>
+          ) : (
+            <Link href="/login" onClick={closeMenu} className="hover:text-gray-300 text-white">
+              Login
+            </Link>
+          )}
         </div>
       )}
     </nav>
