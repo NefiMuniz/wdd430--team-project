@@ -13,4 +13,5 @@ export type Product = {
     artisan_id: number;
     category_id: number;
     created_by: number;
+    image_url: string | null;
 };
