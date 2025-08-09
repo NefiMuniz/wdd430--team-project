@@ -2,11 +2,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Artisan } from '@/lib/definitions';
 
-export default function ArtisanCard({ id, name, bio, imageUrl }: Artisan) {
+export default function ArtisanCard({ id, name, bio, profile_image_url }: Artisan) {
     return (
         <Link href={`/artisans/${id}`} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
             <Image
-                src={imageUrl || '/images/default-avatar.png'}
+                src={`/images/${profile_image_url}.webp` || '/images/no_image.jpg'}
                 alt={name ? `${name}'s portrait` : 'Artisan portrait'}
                 width={128}
                 height={128}

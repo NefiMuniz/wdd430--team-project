@@ -17,7 +17,7 @@ export default async function ArtisanPage(props: { params: Promise<{ id: string 
     <>
       <h1 className="text-center mt-20 text-3xl mb-4">{artisan[0].name}</h1>
       <Image
-        src={artisan[0].imageUrl || '/images/default-avatar.png'}
+        src={`/images/${artisan[0].profile_image_url}.webp` || '/images/no_image.jpg'}
         alt={artisan[0].name ? `${artisan[0].name}'s portrait` : 'Artisan portrait'}
         width={128}
         height={128}

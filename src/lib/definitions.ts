@@ -2,7 +2,7 @@ export type Artisan = {
     id: number;
     name: string;
     bio: string;
-    imageUrl: string;
+    profile_image_url: string;
 };
 
 export type Product = {
