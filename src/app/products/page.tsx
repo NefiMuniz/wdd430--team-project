@@ -19,6 +19,7 @@ export default async function ProductsPage() {
             artisan_id={product.artisan_id}
             category_id={product.category_id}
             created_by={product.created_by}
+            image_url={product.image_url}
           />
         ))}
       </div>

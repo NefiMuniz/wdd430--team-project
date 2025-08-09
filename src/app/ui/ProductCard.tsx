@@ -8,12 +8,13 @@ export default function ProductCard({
     price,
     artisan_id,
     category_id,
-    created_by
+    created_by,
+    image_url
 }: Product) {
     return (
         <div className="w-full max-w-md mx-auto bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
             <Image
-                src={'/images/default-product.png'}
+                src={`/images/${image_url}.webp` || '/images/no_image.jpg'}
                 alt={name ? `${name}` : 'unknown product'}
                 width={256}
                 height={256}
