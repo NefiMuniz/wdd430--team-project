@@ -55,7 +55,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json(insertedArtisans[0], { status: 201 });
     } catch (error) {
-        const message = error instanceof Error ? error.message : 'Erroe';
+        const message = error instanceof Error ? error.message : 'Error';
         return NextResponse.json({ message }, { status: 500 });
     }
 }
