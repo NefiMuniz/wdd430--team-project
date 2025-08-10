@@ -3,6 +3,7 @@ export type Artisan = {
     name: string;
     bio: string;
     profile_image_url: string;
+    is_deleted: boolean;
 };
 
 export type Product = {
@@ -14,4 +15,5 @@ export type Product = {
     category_id: number;
     created_by: number;
     image_url: string | null;
+    is_deleted: boolean;
 };

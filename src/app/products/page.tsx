@@ -20,6 +20,7 @@ export default async function ProductsPage() {
             category_id={product.category_id}
             created_by={product.created_by}
             image_url={product.image_url}
+            is_deleted={product.is_deleted}
           />
         ))}
       </div>

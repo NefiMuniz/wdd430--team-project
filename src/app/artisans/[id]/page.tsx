@@ -38,6 +38,7 @@ export default async function ArtisanPage(props: { params: Promise<{ id: string 
             category_id={product.category_id}
             created_by={product.created_by}
             image_url={product.image_url}
+            is_deleted={product.is_deleted}
           />
         ))}
       </div>
