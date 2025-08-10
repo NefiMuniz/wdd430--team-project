@@ -15,6 +15,7 @@ export default async function ArtisansPage() {
             name={artisan.name}
             bio={artisan.bio}
             profile_image_url={artisan.profile_image_url}
+            is_deleted={artisan.is_deleted}
           />
         ))}
       </div>

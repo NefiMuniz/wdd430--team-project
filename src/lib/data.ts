@@ -77,3 +77,13 @@ export async function getProductsByCategory(category_id: number) {
         throw new Error('Failed to fetch product data.');
     }
 }
+
+export async function getProductById(id: number) {
+  try {
+    const product = await sql<Product[]>`SELECT * FROM products WHERE id = ${id}`;
+    return product[0];
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch product.");
+  }
+}
