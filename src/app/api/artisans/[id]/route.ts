@@ -10,10 +10,10 @@ interface Params {
 async function checkAdmin() {
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
-  if (!token) throw new Error('Token não encontrado');
+  if (!token) throw new Error('Token not found');
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { role: string };
-  if (decoded.role !== 'admin') throw new Error('Acesso negado');
+  if (decoded.role !== 'admin') throw new Error('Denied Access');
 }
 
 export async function PUT(req: Request, context: { params: Promise<Params> }) {
@@ -22,7 +22,7 @@ export async function PUT(req: Request, context: { params: Promise<Params> }) {
 
     const { id } = await context.params;
     const artisanId = Number(id);
-    if (isNaN(artisanId)) return NextResponse.json({ message: 'ID inválido' }, { status: 400 });
+    if (isNaN(artisanId)) return NextResponse.json({ message: 'Invalid ID' }, { status: 400 });
 
     const data = await req.json();
 
@@ -33,9 +33,9 @@ export async function PUT(req: Request, context: { params: Promise<Params> }) {
       WHERE id = ${artisanId}
     `;
 
-    return NextResponse.json({ message: 'Artesão atualizado com sucesso' });
+    return NextResponse.json({ message: 'Artisan Updated Successfully' });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Erro ao atualizar artesão';
+    const message = error instanceof Error ? error.message : 'Error Updating Artisan';
     return NextResponse.json({ message }, { status: 500 });
   }
 }
@@ -49,16 +49,16 @@ export async function DELETE(req: Request, context: { params: Promise<Params> })
     if (isNaN(artisanId)) return NextResponse.json({ message: 'ID inválido' }, { status: 400 });
 
     const artisan = await sql`SELECT user_id FROM artisans WHERE id = ${artisanId}`;
-    if (artisan.length === 0) return NextResponse.json({ message: 'Artesão não encontrado' }, { status: 404 });
+    if (artisan.length === 0) return NextResponse.json({ message: 'Artisan Not Found' }, { status: 404 });
 
     const userId = artisan[0].user_id;
 
     await sql`DELETE FROM artisans WHERE id = ${artisanId}`;
     await sql`DELETE FROM users WHERE id = ${userId}`;
 
-    return NextResponse.json({ message: 'Artesão deletado com sucesso' });
+    return NextResponse.json({ message: 'Artisan deleted' });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Erro ao deletar artesão';
+    const message = error instanceof Error ? error.message : 'Error!';
     return NextResponse.json({ message }, { status: 500 });
   }
 }
