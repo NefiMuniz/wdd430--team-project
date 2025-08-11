@@ -17,3 +17,13 @@ export type Product = {
     image_url: string | null;
     is_deleted: boolean;
 };
+
+export type Review = {
+    id: number;
+    user_id: number;
+    rating: number | null;
+    comment: string | null;
+    created_at: string;
+    updated_at: string;
+    is_deleted: boolean;
+}

@@ -94,16 +94,27 @@ export async function getReviewsByProductId(productId: number) {
             id: number;
             product_id: number;
             user_id: number;
+            user_name: string;
             rating: number | null;
             comment: string | null;
             created_at: string;
             updated_at: string;
             is_deleted: boolean;
         }[]>`
-        SELECT id, product_id, user_id, rating, comment, created_at, updated_at, is_deleted
-        FROM reviews
-        WHERE product_id = ${productId} AND is_deleted = false
-        ORDER BY created_at DESC
+        SELECT
+            r.id,
+            r.product_id,
+            r.user_id,
+            u.username AS user_name,
+            r.rating,
+            r.comment,
+            r.created_at,
+            r.updated_at,
+            r.is_deleted
+        FROM reviews r
+        JOIN users u ON r.user_id = u.id
+        WHERE r.product_id = ${productId} AND r.is_deleted = false
+        ORDER BY r.created_at DESC
         `;
         return reviews;
     } catch (error) {
@@ -121,7 +132,10 @@ export async function addReviewToProduct(
     try {
         await sql`
         INSERT INTO reviews (product_id, user_id, rating, comment)
-        VALUES (${productId}, ${userId}, ${rating}, ${comment})
+        VALUES (${productId},
+        ${userId},
+        ${rating === null ? null : rating}, 
+        ${comment === null ? null : rating})
         `;
     } catch (error) {
         console.error("Database Error:", error);

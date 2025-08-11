@@ -1,110 +1,64 @@
-"use client";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { getProductById, getArtisanById, getReviewsByProductId } from "@/lib/data";
+import ReviewListAndFormWrapper from "./ReviewListAndFormWrapper";
+import type { Review } from "@/lib/definitions";
 
-import { useState } from "react";
-
-interface Review {
-  id: number;
-  user_id: number;
-  rating: number | null;
-  comment: string | null;
-  created_at: string;
-}
-
-interface ReviewListAndFormProps {
+interface Props {
   reviews: Review[];
   productId: number;
   userId: number;
 }
 
-export default function ReviewListAndForm({ reviews: initialReviews, productId, userId }: ReviewListAndFormProps) {
-  const [reviews, setReviews] = useState<Review[]>(initialReviews);
-  const [rating, setRating] = useState<number | null>(null);
-  const [comment, setComment] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+export default async function ProductPage({ reviews, productId, userId }: Props) {
+  // Removemos a linha com params.id pois productId já vem das props
+  const product = await getProductById(productId);
+  if (!product) notFound();
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!rating) {
-      alert("Please, give a rate");
-      return;
-    }
-
-    setSubmitting(true);
-
-    const res = await fetch("/api/reviews", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId, userId, rating, comment }),
-    });
-
-    if (res.ok) {
-      
-      const resReviews = await fetch(`/api/reviews?productId=${productId}`);
-      if (resReviews.ok) {
-        const data = await resReviews.json();
-        setReviews(data.reviews);
-      }
-
-      setRating(null);
-      setComment("");
-      alert("Review sent successfully");
-    } else {
-      alert("Error sending review");
-    }
-
-    setSubmitting(false);
-  }
+  const artisan = await getArtisanById(product.artisan_id);
+  // Não precisamos buscar reviews novamente pois já vêm das props
+  // const reviews = await getReviewsByProductId(productId); // Removido
 
   return (
-    <>
-      {reviews.length === 0 && <p>No review found</p>}
-      {reviews.map((review) => (
-        <div key={review.id} className="border p-4 rounded mb-4">
-          <p className="font-semibold">Rate: {review.rating ?? "N/A"}</p>
-          <p>{review.comment ?? "(Sem comentário)"}</p>
-          <p className="text-sm text-gray-500">{new Date(review.created_at).toLocaleString()}</p>
-        </div>
-      ))}
+    <div className="px-4 py-8 max-w-3xl mx-auto">
+      <h1 className="text-center text-3xl font-bold mb-6">{product.name}</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4 mt-8 max-w-md">
-        <div>
-          <label className="block font-semibold mb-1">Rate:</label>
-          <select
-            value={rating ?? ""}
-            onChange={(e) => setRating(Number(e.target.value))}
-            required
-            className="border rounded px-3 py-2 w-full"
-          >
-            <option value="" disabled>
-              Select a Rate
-            </option>
-            {[1, 2, 3, 4, 5].map((n) => (
-              <option key={n} value={n}>
-                {n} {n === 1 ? "star" : "stars"}
-              </option>
-            ))}
-          </select>
-        </div>
+      <Image
+        src={`/images/${product.image_url}.webp` || "/images/no_image.jpg"}
+        alt={product.name || "Product image"}
+        width={512}
+        height={512}
+        sizes="(max-width: 768px) 100vw, 512px"
+        className="rounded-lg object-cover mx-auto mb-6 bg-gray-100"
+        priority
+      />
 
-        <div>
-          <label className="block font-semibold mb-1">Comment:</label>
-          <textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="Write your comment"
-            rows={4}
-            className="border rounded px-3 py-2 w-full"
-          />
-        </div>
+      <p className="text-gray-600 text-lg mb-4">{product.description}</p>
+      <p className="text-gray-800 font-semibold text-xl mb-6">${product.price}</p>
 
-        <button
-          type="submit"
-          disabled={submitting}
-          className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
-        >
-          {submitting ? "Sending..." : "Send review"}
-        </button>
-      </form>
-    </>
+      {artisan && artisan.length > 0 && (
+        <div className="border-t pt-6 mt-6">
+          <h2 className="text-xl font-semibold mb-4">Artisan Information</h2>
+          <div className="flex items-center space-x-4">
+            <Image
+              src={`/images/${artisan[0].profile_image_url}.webp` || "/images/no_image.jpg"}
+              alt={artisan[0].name || "Artisan portrait"}
+              width={64}
+              height={64}
+              className="rounded-full object-cover bg-gray-100"
+            />
+            <div>
+              <p className="font-medium">{artisan[0].name}</p>
+              <p className="text-gray-600">{artisan[0].bio}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <section className="mt-12">
+        <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
+        <ReviewListAndFormWrapper reviews={reviews} productId={productId} userId={userId} />
+      </section>
+    </div>
   );
 }
