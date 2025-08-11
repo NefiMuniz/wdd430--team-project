@@ -11,13 +11,11 @@ interface Props {
 }
 
 export default async function ProductPage({ reviews, productId, userId }: Props) {
-  // Removemos a linha com params.id pois productId já vem das props
+
   const product = await getProductById(productId);
   if (!product) notFound();
 
   const artisan = await getArtisanById(product.artisan_id);
-  // Não precisamos buscar reviews novamente pois já vêm das props
-  // const reviews = await getReviewsByProductId(productId); // Removido
 
   return (
     <div className="px-4 py-8 max-w-3xl mx-auto">
