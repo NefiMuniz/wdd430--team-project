@@ -1,20 +1,24 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getProductById, getArtisanById } from "@/lib/data";
+import { getProductById, getArtisanById, getReviewsByProductId } from "@/lib/data";
+import ReviewListAndForm from "./ReviewListAndForm";
 
-export default async function ProductPage(props: { params: Promise<{ id: string }> }) {
-  const params = await props.params;
-  const id = parseInt(params.id);
+interface Props {
+  params: Promise<{ id: string }>;
+}
 
-  // Get product details
+export default async function ProductPage({ params }: Props) {
+  const resolvedPrams = await params;
+  const id = parseInt(resolvedPrams.id);
+
   const product = await getProductById(id);
+  if (!product) notFound();
 
-  if (!product) {
-    notFound();
-  }
-
-  // Get artisan info for this product
   const artisan = await getArtisanById(product.artisan_id);
+  const reviews = await getReviewsByProductId(id);
+
+ 
+  const userId = 1;
 
   return (
     <div className="px-4 py-8 max-w-3xl mx-auto">
@@ -51,6 +55,11 @@ export default async function ProductPage(props: { params: Promise<{ id: string 
           </div>
         </div>
       )}
+
+      <section className="mt-12">
+        <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
+        <ReviewListAndForm reviews={reviews} productId={id} userId={userId} />
+      </section>
     </div>
   );
 }
