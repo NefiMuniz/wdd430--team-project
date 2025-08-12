@@ -1,45 +1,41 @@
 import ProductCard from "../ui/ProductCard";
 import ProductFilters from "../ui/ProductFilters";
-import { getAllProducts, getAllCategories, getAllArtisans } from "@/lib/data";
+import { getAllProducts, getAllCategories, getAllArtisans, getPriceRange } from "@/lib/data";
 
 interface ProductsPageProps {
-  searchParams: Promise<{
+  searchParams: {
     category?: string;
     artisan?: string;
     minPrice?: string;
     maxPrice?: string;
-  }>;
+  };
 }
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const params = await searchParams;
-
-  const categoryId = params.category || null;
-  const artisanId = params.artisan || null;
-  const minPrice = params.minPrice ? Number(params.minPrice) : null;
-  const maxPrice = params.maxPrice ? Number(params.maxPrice) : null;
-
-  // Buscar dados para preencher os filtros
-  const [categories, artisans] = await Promise.all([
+  // Fetch all necessary data in parallel
+  const [categories, artisans, priceRange, allProducts] = await Promise.all([
     getAllCategories(),
     getAllArtisans(),
+    getPriceRange(),
+    getAllProducts()
   ]);
 
-  // Buscar produtos
-  let products = await getAllProducts();
-
-  // Aplicar filtros em memória
-  if (categoryId) {
-    products = products.filter((p) => p.category_id === Number(categoryId));
+  // Apply filters
+  let filteredProducts = allProducts;
+  
+  if (params.category) {
+    filteredProducts = filteredProducts.filter(p => p.category_id === Number(params.category));
   }
-  if (artisanId) {
-    products = products.filter((p) => p.artisan_id === Number(artisanId));
+  
+  if (params.artisan) {
+    filteredProducts = filteredProducts.filter(p => p.artisan_id === Number(params.artisan));
   }
-  if (minPrice !== null && maxPrice !== null) {
-    products = products.filter(
-      (p) => p.price >= minPrice && p.price <= maxPrice
-    );
-  }
+  
+  const minPrice = params.minPrice ? Number(params.minPrice) : priceRange.min;
+  const maxPrice = params.maxPrice ? Number(params.maxPrice) : priceRange.max;
+  
+  filteredProducts = filteredProducts.filter(p => p.price >= minPrice && p.price <= maxPrice);
 
   return (
     <div className="px-4 py-8">
@@ -47,17 +43,21 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         Product Listings
       </h1>
 
-      {/* Filtros */}
-      <ProductFilters categories={categories} artisans={artisans} />
+      <ProductFilters 
+        categories={categories} 
+        artisans={artisans}
+        priceRange={priceRange}
+        currentMinPrice={minPrice}
+        currentMaxPrice={maxPrice}
+      />
 
-      {/* Lista de produtos */}
       <div className="flex flex-col space-y-8 md:grid md:grid-cols-3 md:gap-8 md:space-y-0">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard key={product.id} {...product} />
         ))}
-        {products.length === 0 && (
+        {filteredProducts.length === 0 && (
           <p className="text-center col-span-full text-gray-500">
-            Nenhum produto encontrado para os filtros aplicados.
+            No products found matching your filters.
           </p>
         )}
       </div>

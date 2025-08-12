@@ -1,0 +1,70 @@
+/* slider-styles.css */
+.SliderRoot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  touch-action: none;
+  width: 100%;
+  height: 20px;
+}
+
+.SliderTrack {
+  background-color: #e5e7eb;
+  position: relative;
+  flex-grow: 1;
+  border-radius: 9999px;
+  height: 4px;
+}
+
+.SliderRange {
+  position: absolute;
+  background-color: #3b82f6;
+  border-radius: 9999px;
+  height: 100%;
+}
+
+.SliderThumb {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 9999px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.1s;
+  cursor: grab;
+  transition: all 0,1s ease;
+}
+
+.SliderThumb::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #3b82f6;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.SliderThumb:hover {
+  transform: scale(1.1);
+}
+
+.SliderThumb:hover::after {
+  opacity: 1;
+}
+
+.SliderThumb:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.SliderThumb:active {
+  cursor: grabbing;
+  transform: scale(1.2);
+}

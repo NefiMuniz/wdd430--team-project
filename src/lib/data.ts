@@ -98,6 +98,18 @@ export async function getAllCategories() {
   }
 }
 
+export async function getPriceRange() {
+  try {
+    const result = await sql<{ min: number; max: number }[]>`
+      SELECT MIN(price) as min, MAX(price) as max FROM products
+    `;
+    return result[0] || { min: 0, max: 1000 }; // Default values if table is empty
+  } catch (error) {
+    console.error('Database Error:', error);
+    return { min: 0, max: 1000 }; // Fallback in case of error
+  }
+}
+
 export async function getReviewsByProductId(productId: number) {
     try {
         const reviews = await sql<{
