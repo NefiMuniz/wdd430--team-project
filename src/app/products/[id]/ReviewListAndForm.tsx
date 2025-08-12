@@ -1,24 +1,18 @@
-import Image from "next/image";
-import { notFound } from "next/navigation";
-import { getProductById, getArtisanById, getReviewsByProductId } from "@/lib/data";
-import ReviewListAndFormWrapper from "./ReviewListAndFormWrapper";
+'use client';
 
-interface ProductPageProps {
-  params: Promise<{ id: string }>;
+import Image from "next/image";
+import ReviewListAndFormWrapper from "./ReviewListAndFormWrapper";
+import type { Review, Product, Artisan } from "@/lib/definitions";
+
+interface Props {
+  product: Product;
+  artisan: Artisan | null;
+  reviews: Review[];
+  productId: number;
+  userId: number;
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
-  const { id: idString } = await params; // como é Promise, precisa de await
-  const id = parseInt(idString, 10);
-
-  const product = await getProductById(id);
-  if (!product) notFound();
-
-  const artisanData = await getArtisanById(product.artisan_id);
-  const artisan = artisanData.length > 0 ? artisanData[0] : null;
-
-  const reviews = await getReviewsByProductId(id);
-
+export default function ReviewListAndForm({ product, artisan, reviews, productId, userId }: Props) {
   return (
     <div className="px-4 py-8 max-w-3xl mx-auto">
       <h1 className="text-center text-3xl font-bold mb-6">{product.name}</h1>
@@ -57,12 +51,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
       <section className="mt-12">
         <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
-        <ReviewListAndFormWrapper
-         reviews={reviews} 
-         productId={id} 
-         userId={1}
-         product={product}
-         artisan={artisan} />
+        <ReviewListAndFormWrapper 
+        reviews={reviews} 
+        productId={productId} 
+        userId={userId}
+        product={product}
+        artisan={artisan} />
       </section>
     </div>
   );

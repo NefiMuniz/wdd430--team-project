@@ -1,13 +1,26 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
 type MyJwtPayload = {
+  id: number;
   email: string;
   role: 'admin' | 'artisan' | 'customer';
 };
 
-export async function GET(req: NextRequest) {
+function createToken(user: { id: number, email: string, role: string }) {
+  const payload = {
+    id: user.id,
+    email: user.email,
+    role: user.role
+  };
+
+  const token = jwt.sign({id: user.id, email: user.email, role: user.role}, process.env.JWT_SECRET!, { expiresIn: "1h" });
+  return token;
+}
+
+
+export async function GET() {
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
 
@@ -17,7 +30,12 @@ export async function GET(req: NextRequest) {
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET!) as MyJwtPayload;
-    return NextResponse.json({ loggedIn: true, ...payload }, { status: 200 });
+    return NextResponse.json({
+      loggedIn: true,
+      id: payload.id,
+      email: payload.email,
+      role: payload.role
+    }, { status: 200 });
   } catch {
     return NextResponse.json({ loggedIn: false }, { status: 200 });
   }
