@@ -18,6 +18,7 @@ export default function ProductFilters({
   currentMinPrice: number;
   currentMaxPrice: number;
 }) {
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -30,12 +31,15 @@ export default function ProductFilters({
     setPriceValues([currentMinPrice, currentMaxPrice]);
   }, [currentMinPrice, currentMaxPrice]);
 
+
   const applyFilters = () => {
     const params = new URLSearchParams();
     if (category) params.set('category', category);
     if (artisan) params.set('artisan', artisan);
+
     params.set('minPrice', priceValues[0].toString());
     params.set('maxPrice', priceValues[1].toString());
+
     router.push(`/products?${params.toString()}`);
   };
 
@@ -43,6 +47,7 @@ export default function ProductFilters({
     setCategory('');
     setArtisan('');
     setPriceValues([priceRange.min, priceRange.max]);
+
     router.push('/products');
   };
 
