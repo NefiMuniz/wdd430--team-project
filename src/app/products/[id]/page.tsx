@@ -8,7 +8,7 @@ interface ProductPageProps {
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const { id: idString } = await params; // como é Promise, precisa de await
+  const { id: idString } = await params; // Promise, então await
   const id = parseInt(idString, 10);
 
   const product = await getProductById(id);
@@ -24,7 +24,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <h1 className="text-center text-3xl font-bold mb-6">{product.name}</h1>
 
       <Image
-        src={`/images/${product.image_url}.webp` || "/images/no_image.jpg"}
+        src={product.image_url ? `/images/${product.image_url}.webp` : "/images/no_image.jpg"}
         alt={product.name || "Product image"}
         width={512}
         height={512}
@@ -41,7 +41,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <h2 className="text-xl font-semibold mb-4">Artisan Information</h2>
           <div className="flex items-center space-x-4">
             <Image
-              src={`/images/${artisan.profile_image_url}.webp` || "/images/no_image.jpg"}
+              src={artisan.profile_image_url ? `/images/${artisan.profile_image_url}.webp` : "/images/no_image.jpg"}
               alt={artisan.name || "Artisan portrait"}
               width={64}
               height={64}
@@ -58,11 +58,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <section className="mt-12">
         <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
         <ReviewListAndFormWrapper
-         reviews={reviews} 
-         productId={id} 
-         userId={1}
-         product={product}
-         artisan={artisan} />
+          reviews={reviews}
+          productId={id}
+          product={product}
+          artisan={artisan}
+        />
       </section>
     </div>
   );

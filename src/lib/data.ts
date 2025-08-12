@@ -96,6 +96,7 @@ export async function getAllCategories() {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch categories.');
   }
+
 }
 
 export async function getPriceRange() {
@@ -157,7 +158,7 @@ export async function addReviewToProduct(
         VALUES (${productId},
         ${userId},
         ${rating === null ? null : rating}, 
-        ${comment === null ? null : rating})
+        ${comment === null ? null : comment})
         `;
     } catch (error) {
         console.error("Database Error:", error);

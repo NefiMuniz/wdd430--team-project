@@ -2,8 +2,15 @@ import ProductCard from "../ui/ProductCard";
 import ProductFilters from "../ui/ProductFilters";
 import { getAllProducts, getAllCategories, getAllArtisans, getPriceRange } from "@/lib/data";
 
+<<<<<<< HEAD
 interface ProductsPageProps {
   searchParams: Promise<{
+=======
+export default async function ProductsPage({
+  searchParams
+}: {
+  searchParams: {
+>>>>>>> f500a974cc4ed7872d552fbd1f907736fa0ed146
     category?: string;
     artisan?: string;
     minPrice?: string;
@@ -37,6 +44,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   
   filteredProducts = filteredProducts.filter(p => p.price >= minPrice && p.price <= maxPrice);
 
+
   return (
     <div className="px-4 py-8">
       <h1 className="text-center text-2xl sm:text-3xl font-bold mb-8">
@@ -58,9 +66,11 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         {filteredProducts.length === 0 && (
           <p className="text-center col-span-full text-gray-500">
             No products found matching your filters.
+
           </p>
         )}
       </div>
     </div>
   );
 }
+
