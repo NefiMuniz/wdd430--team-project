@@ -2,14 +2,16 @@ import ProductCard from "../ui/ProductCard";
 import ProductFilters from "../ui/ProductFilters";
 import { getAllProducts, getAllCategories, getAllArtisans, getPriceRange } from "@/lib/data";
 
-export default async function ProductsPage({ searchParams }: {
-  searchParams: {
+interface ProductsPageProps {
+  searchParams: Promise<{
     category?: string;
     artisan?: string;
     minPrice?: string;
     maxPrice?: string;
-  };
-}) {
+  }>;
+}
+
+export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const params = await searchParams;
   // Fetch all necessary data in parallel
   const [categories, artisans, priceRange, allProducts] = await Promise.all([
