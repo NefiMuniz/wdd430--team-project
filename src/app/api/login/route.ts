@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ message: 'Invalid password' }, { status: 401 });
     }
     const token = jwt.sign(
-        { email: user.email, role: user.role },
+        { id: user.id, email: user.email, role: user.role },
         process.env.JWT_SECRET!,
         { expiresIn: '1h' }
     );
@@ -39,5 +39,4 @@ export async function POST(req: NextRequest) {
     });
 
     return response;
-
 }

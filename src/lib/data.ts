@@ -135,7 +135,7 @@ export async function addReviewToProduct(
         VALUES (${productId},
         ${userId},
         ${rating === null ? null : rating}, 
-        ${comment === null ? null : rating})
+        ${comment === null ? null : comment})
         `;
     } catch (error) {
         console.error("Database Error:", error);
