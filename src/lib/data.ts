@@ -78,6 +78,7 @@ export async function getProductsByCategory(category_id: number) {
 }
 
 export async function getProductById(id: number) {
+<<<<<<< HEAD
   try {
     const product = await sql<Product[]>`SELECT * FROM products WHERE id = ${id}`;
     return product[0];
@@ -96,4 +97,68 @@ export async function getAllCategories() {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch categories.');
   }
+=======
+    try {
+        const product = await sql<Product[]>`SELECT * FROM products WHERE id = ${id}`;
+        return product[0];
+    } catch (error) {
+        console.error("Database Error:", error);
+        throw new Error("Failed to fetch product.");
+    }
+}
+
+export async function getReviewsByProductId(productId: number) {
+    try {
+        const reviews = await sql<{
+            id: number;
+            product_id: number;
+            user_id: number;
+            user_name: string;
+            rating: number | null;
+            comment: string | null;
+            created_at: string;
+            updated_at: string;
+            is_deleted: boolean;
+        }[]>`
+        SELECT
+            r.id,
+            r.product_id,
+            r.user_id,
+            u.username AS user_name,
+            r.rating,
+            r.comment,
+            r.created_at,
+            r.updated_at,
+            r.is_deleted
+        FROM reviews r
+        JOIN users u ON r.user_id = u.id
+        WHERE r.product_id = ${productId} AND r.is_deleted = false
+        ORDER BY r.created_at DESC
+        `;
+        return reviews;
+    } catch (error) {
+        console.error("Database Error:", error);
+        throw new Error("Failed to fetch reviews.");
+    }
+}
+
+export async function addReviewToProduct(
+    productId: number,
+    userId: number,
+    rating: number | null,
+    comment: string | null
+) {
+    try {
+        await sql`
+        INSERT INTO reviews (product_id, user_id, rating, comment)
+        VALUES (${productId},
+        ${userId},
+        ${rating === null ? null : rating}, 
+        ${comment === null ? null : rating})
+        `;
+    } catch (error) {
+        console.error("Database Error:", error);
+        throw new Error("Failed to add review.");
+    }
+>>>>>>> 33fee1bb7d49d328c1f21e8b11cf56a5c0946bb8
 }
