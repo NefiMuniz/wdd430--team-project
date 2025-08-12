@@ -2,15 +2,8 @@ import ProductCard from "../ui/ProductCard";
 import ProductFilters from "../ui/ProductFilters";
 import { getAllProducts, getAllCategories, getAllArtisans, getPriceRange } from "@/lib/data";
 
-<<<<<<< HEAD
 interface ProductsPageProps {
   searchParams: Promise<{
-=======
-export default async function ProductsPage({
-  searchParams
-}: {
-  searchParams: {
->>>>>>> f500a974cc4ed7872d552fbd1f907736fa0ed146
     category?: string;
     artisan?: string;
     minPrice?: string;
