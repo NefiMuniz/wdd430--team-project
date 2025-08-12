@@ -16,7 +16,6 @@ export async function getAllUsers() {
     }
 }
 
-
 export async function getAllArtisans() {
     try {
         console.log('Fetching artisan data...');
@@ -41,11 +40,11 @@ export async function getArtisanById(id: number) {
     }
 }
 
-export async function getAllProducts() {
+export async function getAllProducts(): Promise<Product[]> {
     try {
         console.log('Fetching product data...');
-        const products = await sql<Product[]>`SELECT * FROM products`;
-        return products;
+        const rows = await sql<Product[]>`SELECT * FROM products`;
+        return rows as Product[];
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch product data.');
@@ -85,5 +84,16 @@ export async function getProductById(id: number) {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch product.");
+  }
+}
+
+export async function getAllCategories() {
+  try {
+    console.log('Fetching category data...');
+    const categories = await sql<{ id: number; name: string }[]>`SELECT id, name FROM categories ORDER BY name`;
+    return categories;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch categories.');
   }
 }
