@@ -7,9 +7,6 @@ export default function ProductCard({
     name,
     description,
     price,
-    artisan_id,
-    category_id,
-    created_by,
     image_url
 }: Product) {
     return (
