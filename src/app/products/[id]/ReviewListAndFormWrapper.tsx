@@ -7,7 +7,6 @@ import type { Review, Product, Artisan } from "@/lib/definitions";
 interface WrapperProps {
   reviews: Review[];
   productId: number;
-  userId: number;
   product: Product;
   artisan: Artisan | null;
 }
@@ -19,10 +18,9 @@ export default function ReviewListAndFormWrapper({ reviews, productId, product, 
   useEffect(() => {
     async function fetchUser() {
       try {
-        const res = await fetch("/api/auth/session", {
-          credentials: "include"
-        });
+        const res = await fetch("/api/auth/session", { credentials: "include" });
         const data = await res.json();
+        console.log("Session data:", data);
 
         if (data?.loggedIn && data?.id) {
           setUserId(Number(data.id));
@@ -39,9 +37,10 @@ export default function ReviewListAndFormWrapper({ reviews, productId, product, 
     fetchUser();
   }, []);
 
-
   if (loading) return <p>Loading user info...</p>;
-  if (userId === null) return <p>You must be logged in to leave a review.</p>;
+
+  // Aqui removemos o if (userId === null) e sempre renderizamos o formulário,
+  // passando o userId (que pode ser null) para o componente ReviewListAndForm.
 
   return (
     <ReviewListAndForm

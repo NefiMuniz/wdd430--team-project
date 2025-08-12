@@ -17,7 +17,7 @@ export default function LoginForm() {
         });
 
         if (res.ok) {
-            const data = await res.json(); // espera receber { token: '...' }
+            const data = await res.json();
 
             const token = data.token;
             if (!token) {
