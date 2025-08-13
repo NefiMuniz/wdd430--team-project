@@ -8,7 +8,7 @@ interface Props {
   artisan: Artisan | null;
   reviews: Review[];
   productId: number;
-  userId: number | null;
+  userId?: number;
 }
 
 export default function ReviewListAndForm({ product, artisan, reviews, productId, userId }: Props) {
@@ -18,7 +18,7 @@ export default function ReviewListAndForm({ product, artisan, reviews, productId
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (userId === null) {
+    if (userId === undefined) {
       alert("You must be logged in to submit a review.");
       return;
     }
@@ -28,7 +28,31 @@ export default function ReviewListAndForm({ product, artisan, reviews, productId
       return;
     }
 
-    alert(`Submitted review! Rating: ${rating}, Comment: "${comment}"`);
+    try {
+      const response = await fetch(`/api/products/${productId}/reviews`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          rating,
+          comment: comment || null, // Envia null se o comentário estiver vazio
+          user_id: userId
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit review");
+      }
+
+      alert("Review submitted successfully!");
+      setRating(null);
+      setComment("");
+      // Você pode querer atualizar a lista de reviews aqui
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      alert("Failed to submit review. Please try again.");
+    }
   };
 
   return (
@@ -36,7 +60,7 @@ export default function ReviewListAndForm({ product, artisan, reviews, productId
       <section className="mt-12">
         <h2 className="text-xl font-semibold mb-4">Write a Review</h2>
 
-        {userId === null ? (
+        {userId === undefined ? (
           <p>You must be logged in to leave a review.</p>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 max-w-md">

@@ -11,25 +11,26 @@ interface WrapperProps {
   artisan: Artisan | null;
 }
 
+interface SessionData {
+  loggedIn: boolean;
+  user_id?: number;
+}
+
 export default function ReviewListAndFormWrapper({ reviews, productId, product, artisan }: WrapperProps) {
-  const [userId, setUserId] = useState<number | null>(null);
+  const [userId, setUserId] = useState<number | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchUser() {
       try {
         const res = await fetch("/api/auth/session", { credentials: "include" });
-        const data = await res.json();
-        console.log("Session data:", data);
-
-        if (data?.loggedIn && data?.id) {
-          setUserId(Number(data.id));
-        } else {
-          setUserId(null);
+        const data: SessionData = await res.json();
+        
+        if (data?.loggedIn && data?.user_id) {
+          setUserId(data.user_id);
         }
       } catch (error) {
         console.error("Failed to fetch user session:", error);
-        setUserId(null);
       } finally {
         setLoading(false);
       }
@@ -38,9 +39,6 @@ export default function ReviewListAndFormWrapper({ reviews, productId, product, 
   }, []);
 
   if (loading) return <p>Loading user info...</p>;
-
-  // Aqui removemos o if (userId === null) e sempre renderizamos o formulário,
-  // passando o userId (que pode ser null) para o componente ReviewListAndForm.
 
   return (
     <ReviewListAndForm
