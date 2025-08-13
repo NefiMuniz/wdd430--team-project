@@ -1,5 +1,6 @@
 export type Artisan = {
     id: number;
+    user_id: number;
     name: string;
     bio: string;
     profile_image_url: string;
