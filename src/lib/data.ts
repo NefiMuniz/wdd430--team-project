@@ -165,3 +165,33 @@ export async function addReviewToProduct(
         throw new Error("Failed to add review.");
     }
 }
+
+export async function getArtisanByUserId(user_id: number): Promise<Artisan> {
+  try {
+    const artisans = await sql<Artisan[]>`
+      SELECT * FROM artisans 
+      WHERE user_id = ${user_id}
+      LIMIT 1
+    `;
+    if (artisans.length === 0) throw new Error('Artisan not found');
+    return artisans[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch artisan by user ID.');
+  }
+}
+
+export async function getArtisanProducts(artisanId: number) {
+  try {
+    const products = await sql<Product[]>`
+      SELECT p.* 
+      FROM products p
+      WHERE p.artisan_id = ${artisanId}
+      ORDER BY p.created_at DESC
+    `;
+    return products;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch artisan products.');
+  }
+}

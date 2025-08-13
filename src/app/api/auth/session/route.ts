@@ -3,24 +3,10 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
 type MyJwtPayload = {
-  id: number;
+  user_id: number;
   email: string;
   role: 'admin' | 'artisan' | 'customer';
 };
-
-function createToken(user: { id: number, email: string, role: string }) {
-  const token = jwt.sign(
-    {
-      id: user.id,
-      email: user.email,
-      role: user.role
-    },
-    process.env.JWT_SECRET!,
-    {expiresIn: "1h"}
-  );
-  return token;
-}
-
 
 export async function GET() {
   const cookieStore = await cookies();
@@ -34,7 +20,7 @@ export async function GET() {
     const payload = jwt.verify(token, process.env.JWT_SECRET!) as MyJwtPayload;
     return NextResponse.json({
       loggedIn: true,
-      id: payload.id,
+      user_id: payload.user_id,
       email: payload.email,
       role: payload.role
     }, { status: 200 });
