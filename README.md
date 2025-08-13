@@ -12,6 +12,6 @@ Néfi Muniz dos Santos
 https://github.com/NefiMuniz/wdd430--team-project
 
 <!-- Vercel -->
-https://vercel.com/nefimunizs-projects/wdd430-team-project/3AbrVmGTyrZYqrmMJiuwNzRDuyHQ
+https://wdd430-team-project-six.vercel.app/
 
 <!-- Figma -->
