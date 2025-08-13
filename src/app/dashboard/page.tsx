@@ -21,6 +21,7 @@ export default async function DashboardPage() {
         // Decodifica e verifica o token JWT usando a secret
         payload = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
     } catch (error) {
+        console.log(error)
         // Se inválido, redireciona para login
         redirect('/login');
     }
@@ -45,10 +46,7 @@ export default async function DashboardPage() {
             )}
 
             {payload.role === 'customer' && (
-                <div>
-                    <h2 className="text-xl font-semibold">Customer Area</h2>
-                    <p>Informações e opções para clientes.</p>
-                </div>
+                redirect('/')
             )}
         </main>
     );
