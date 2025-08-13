@@ -20,22 +20,29 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
     getPriceRange(),
     getAllProducts()
   ]);
-
-  // Apply filters
+  
   let filteredProducts = allProducts;
   
-  if (params.category) {
-    filteredProducts = filteredProducts.filter(p => p.category_id === Number(params.category));
+  // Apply filters
+  const hasAnyFilter =
+    params.category || params.artisan || params.minPrice || params.maxPrice;
+  if (hasAnyFilter) {
+
+    if (params.category) {
+      filteredProducts = filteredProducts.filter(p => p.category_id === Number(params.category));
+    }
+    
+    if (params.artisan) {
+      filteredProducts = filteredProducts.filter(p => p.artisan_id === Number(params.artisan));
+    }
+    
+    const minPrice = params.minPrice ? Number(params.minPrice) : priceRange.min;
+    const maxPrice = params.maxPrice ? Number(params.maxPrice) : priceRange.max;
+    
+    filteredProducts = filteredProducts.filter(p => p.price >= minPrice && p.price <= maxPrice);
   }
-  
-  if (params.artisan) {
-    filteredProducts = filteredProducts.filter(p => p.artisan_id === Number(params.artisan));
-  }
-  
-  const minPrice = params.minPrice ? Number(params.minPrice) : priceRange.min;
-  const maxPrice = params.maxPrice ? Number(params.maxPrice) : priceRange.max;
-  
-  filteredProducts = filteredProducts.filter(p => p.price >= minPrice && p.price <= maxPrice);
+    const minPrice = params.minPrice ? Number(params.minPrice) : priceRange.min;
+    const maxPrice = params.maxPrice ? Number(params.maxPrice) : priceRange.max;
 
 
   return (
