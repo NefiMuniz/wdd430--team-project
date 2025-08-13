@@ -12,6 +12,7 @@ export default async function ArtisansPage() {
           <ArtisanCard
             key={index}
             id={artisan.id}
+            user_id={artisan.user_id}
             name={artisan.name}
             bio={artisan.bio}
             profile_image_url={artisan.profile_image_url}
